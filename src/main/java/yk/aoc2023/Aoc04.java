@@ -50,7 +50,7 @@ public class Aoc04 {
     private static int calc2(YList<YList<YList<Integer>>> input) {
         YList<Integer> counts = YArrayList.allocate(input.size(), i -> 1);
         input.forWithIndex((i, card) ->  {
-            int win = card.last().reduce(0, (res, cur) -> res + (card.first().contains(cur) ? 1 : 0));
+            int win = card.last().map(n -> card.first().contains(n) ? 1 : 0).reduce(INT_ADD);
             for (int j = i + 1; j < i + win + 1 && j < counts.size(); j++) counts.set(j, counts.get(j) + counts.get(i));
         });
         return counts.reduce(INT_ADD);
