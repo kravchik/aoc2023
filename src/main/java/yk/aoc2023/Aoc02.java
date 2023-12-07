@@ -10,6 +10,7 @@ import static java.lang.Math.max;
 import static org.junit.Assert.assertEquals;
 import static yk.aoc2023.utils.AocUtils.INT_ADD;
 import static yk.aoc2023.utils.AocUtils.INT_MUL;
+import static yk.aoc2023.utils.IndexedFunction.indexed;
 import static yk.ycollections.YArrayList.al;
 import static yk.ycollections.YHashMap.hm;
 
@@ -39,7 +40,7 @@ public class Aoc02 {
 
     public static int solve(YMap<String, Integer> max, YList<YList<YMap<String, Integer>>> input) {
         return input
-                .mapWithIndex((i, round) -> round.isAll(s -> s.isAll((k, v) -> max.get(k) >= v)) ? i + 1 : 0)
+                .map(indexed((i, round) -> round.isAll(s -> s.isAll((k, v) -> max.get(k) >= v)) ? i + 1 : 0))
                 .reduce(INT_ADD);
     }
 
