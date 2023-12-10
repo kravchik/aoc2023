@@ -139,6 +139,15 @@ public class AocUtils {
         return acc.result;
     }
 
+    public static <T> YList<T> generate(T initial, Function<T, T> gen) {
+        YList<T> result = al();
+        while(initial != null) {
+            result.add(initial);
+            initial = gen.apply(initial);
+        }
+        return result;
+    }
+
     public static class Accumulator<T> {
         public YList<YList<T>> result = al();
         public YList<T> cur = al();
