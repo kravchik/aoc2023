@@ -1,11 +1,11 @@
 package yk.aoc2023;
 
 import org.junit.Test;
-import yk.jcommon.utils.IO;
 import yk.ycollections.YList;
 
 import static java.lang.Long.parseLong;
 import static org.junit.Assert.assertEquals;
+import static yk.aoc2023.utils.AocUtils.readFile;
 import static yk.ycollections.YArrayList.al;
 
 public class Aoc06 {
@@ -26,12 +26,12 @@ public class Aoc06 {
 
     @Test
     public void solution1() {
-        assertEquals(4403592, calc(parse1(IO.readFile("src/main/java/yk/aoc2023/aoc6.txt"))));
+        assertEquals(4403592, calc(parse1(readFile("aoc06.txt"))));
     }
 
     @Test
     public void solution2() {
-        assertEquals(38017587, calc(parse2(IO.readFile("src/main/java/yk/aoc2023/aoc6.txt"))));
+        assertEquals(38017587, calc(parse2(readFile("aoc06.txt"))));
     }
 
     public static long calc(YList<YList<Long>> races) {

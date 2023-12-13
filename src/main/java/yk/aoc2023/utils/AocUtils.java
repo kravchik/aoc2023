@@ -1,6 +1,8 @@
 package yk.aoc2023.utils;
 
+import yk.aoc2023.Aoc08;
 import yk.jcommon.fastgeom.Vec2i;
+import yk.jcommon.utils.IO;
 import yk.ycollections.YArrayList;
 import yk.ycollections.YList;
 import yk.ycollections.YSet;
@@ -139,6 +141,18 @@ public class AocUtils {
         return acc.result;
     }
 
+    public static Vec2i abs(Vec2i v) {
+        return v2i(Math.abs(v.x), Math.abs(v.y));
+    }
+
+    public static int sum(Vec2i v) {
+        return v.x + v.y;
+    }
+
+    public static int max(Vec2i v) {
+        return Math.max(v.x, v.y);
+    }
+
     public static <T> YList<T> generate(T initial, Function<T, T> gen) {
         YList<T> result = al();
         while(initial != null) {
@@ -146,6 +160,19 @@ public class AocUtils {
             initial = gen.apply(initial);
         }
         return result;
+    }
+
+    public static <T> YList<T> generate2(T initial, Function<YList<T>, T> gen) {
+        YList<T> result = al();
+        while(initial != null) {
+            result.add(initial);
+            initial = gen.apply(result);
+        }
+        return result;
+    }
+
+    public static YList<YList<String>> parse2d(String input) {
+        return al(input.split("\n")).map(s -> AocUtils.stringToStrings(s));
     }
 
     public static class Accumulator<T> {
@@ -163,5 +190,9 @@ public class AocUtils {
             cur.add(element);
             return this;
         }
+    }
+
+    public static String readFile(String name) {
+        return IO.readFile(Aoc08.DIR + "/" + name);
     }
 }

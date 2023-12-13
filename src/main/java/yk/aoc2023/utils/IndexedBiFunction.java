@@ -10,7 +10,7 @@ public class IndexedBiFunction<I1, I2, R> implements BiFunction<I1, I2, R> {
         this.f = f;
     }
 
-    public static <I1, I2, R> IndexedBiFunction<I1, I2, R> indexed(IndexedBiFunctionCallback<I1, I2, R> f) {
+    public static <I1, I2, R> IndexedBiFunction<I1, I2, R> indexed2(IndexedBiFunctionCallback<I1, I2, R> f) {
         return new IndexedBiFunction(f);
     }
 

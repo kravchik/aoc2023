@@ -1,15 +1,13 @@
 package yk.aoc2023;
 
 import org.junit.Test;
-import yk.jcommon.utils.IO;
 import yk.ycollections.YList;
 import yk.ycollections.YMap;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.Math.max;
 import static org.junit.Assert.assertEquals;
-import static yk.aoc2023.utils.AocUtils.INT_ADD;
-import static yk.aoc2023.utils.AocUtils.INT_MUL;
+import static yk.aoc2023.utils.AocUtils.*;
 import static yk.aoc2023.utils.IndexedFunction.indexed;
 import static yk.ycollections.YArrayList.al;
 import static yk.ycollections.YHashMap.hm;
@@ -34,19 +32,17 @@ public class Aoc02 {
 
     @Test
     public void solution1() {
-        assertEquals(2237, solve(hm("red", 12, "green", 13, "blue", 14),
-                parseInput(IO.readFile("src/main/java/yk/aoc2023/aoc2.txt"))));
+        assertEquals(2237, solve(hm("red", 12, "green", 13, "blue", 14), parseInput(readFile("aoc02.txt"))));
     }
 
     public static int solve(YMap<String, Integer> max, YList<YList<YMap<String, Integer>>> input) {
-        return input
-                .map(indexed((i, round) -> round.isAll(s -> s.isAll((k, v) -> max.get(k) >= v)) ? i + 1 : 0))
-                .reduce(INT_ADD);
+        return input.map(indexed((i, round) -> round.isAll(s -> s.isAll((k, v) -> max.get(k) >= v)) ? i + 1 : 0))
+                    .reduce(INT_ADD);
     }
 
     @Test
     public void solution2() {
-        assertEquals(66681, solve2(parseInput(IO.readFile("src/main/java/yk/aoc2023/aoc2.txt"))));
+        assertEquals(66681, solve2(parseInput(readFile("aoc02.txt"))));
     }
 
     public static int solve2(YList<YList<YMap<String, Integer>>> input) {

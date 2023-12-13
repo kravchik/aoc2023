@@ -1,17 +1,18 @@
 package yk.aoc2023;
 
 import org.junit.Test;
-import yk.jcommon.utils.IO;
 import yk.ycollections.YList;
 
 import static java.lang.Long.max;
 import static java.lang.Long.min;
 import static org.junit.Assert.assertEquals;
+import static yk.aoc2023.utils.AocUtils.readFile;
 import static yk.ycollections.YArrayList.al;
 
 public class Aoc05 {
 
-    public static final String TEST_INPUT = "seeds: 79 14 55 13\n" +
+    public static final String TEST_INPUT =
+            "seeds: 79 14 55 13\n" +
             "\n" +
             "seed-to-soil map:\n" +
             "50 98 2\n" +
@@ -57,12 +58,12 @@ public class Aoc05 {
 
     @Test
     public void solution1() {
-        assertEquals(662197086, solution1(IO.readFile("src/main/java/yk/aoc2023/aoc5.txt")));
+        assertEquals(662197086, solution1(readFile("aoc05.txt")));
     }
 
     @Test
     public void solution2() {
-        assertEquals(52510809, solution2(IO.readFile("src/main/java/yk/aoc2023/aoc5.txt")));
+        assertEquals(52510809, solution2(readFile("aoc05.txt")));
     }
 
     public long solution1(String input) {

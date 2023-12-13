@@ -1,7 +1,6 @@
 package yk.aoc2023;
 
 import org.junit.Test;
-import yk.jcommon.utils.IO;
 import yk.ycollections.YMap;
 
 import static java.lang.Integer.parseInt;
@@ -49,12 +48,12 @@ public class Aoc01 {
 
     @Test
     public void solution1() {
-        assertEquals(56465, solve(IO.readFile("src/main/java/yk/aoc2023/aoc1.txt")));
+        assertEquals(56465, solve(readFile("aoc01.txt")));
     }
 
     @Test
     public void solution2() {
-        assertEquals(55902, solve2(IO.readFile("src/main/java/yk/aoc2023/aoc1.txt")));
+        assertEquals(55902, solve2(readFile("aoc01.txt")));
     }
 
     public int solve(String input) {

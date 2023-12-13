@@ -2,12 +2,12 @@ package yk.aoc2023;
 
 import org.junit.Test;
 import yk.aoc2023.utils.AocUtils;
-import yk.jcommon.utils.IO;
 import yk.ycollections.YArrayList;
 import yk.ycollections.YList;
 import yk.ycollections.YMap;
 
 import static org.junit.Assert.assertEquals;
+import static yk.aoc2023.utils.AocUtils.readFile;
 import static yk.ycollections.YArrayList.al;
 import static yk.ycollections.YArrayList.allocate;
 
@@ -49,12 +49,12 @@ public class Aoc08 {
 
     @Test
     public void solution1() {
-        assertEquals(19631, calc(IO.readFile(DIR + "/aoc8.txt")));
+        assertEquals(19631, calc(readFile("aoc08.txt")));
     }
 
     @Test
     public void solution2() {
-        YList<Long> periods = extractPrimitivePeriods(IO.readFile(DIR + "/aoc8.txt"));
+        YList<Long> periods = extractPrimitivePeriods(readFile("aoc08.txt"));
         assertEquals(al(20803L, 17873L, 23147L, 15529L, 17287L, 19631L), periods);
         assertEquals(21003205388413L, (long) periods.reduce((res, cur) -> lcm(res, cur)));
     }

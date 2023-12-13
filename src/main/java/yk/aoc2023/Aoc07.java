@@ -1,7 +1,6 @@
 package yk.aoc2023;
 
 import org.junit.Test;
-import yk.jcommon.utils.IO;
 import yk.ycollections.Tuple;
 import yk.ycollections.YList;
 import yk.ycollections.YMap;
@@ -9,12 +8,14 @@ import yk.ycollections.YMap;
 import static java.lang.Integer.compare;
 import static java.lang.Integer.parseInt;
 import static org.junit.Assert.assertEquals;
+import static yk.aoc2023.utils.AocUtils.readFile;
 import static yk.aoc2023.utils.AocUtils.stringToStrings;
-import static yk.aoc2023.utils.IndexedBiFunction.indexed;
+import static yk.aoc2023.utils.IndexedBiFunction.indexed2;
 import static yk.ycollections.YArrayList.al;
 
 public class Aoc07 {
-    public static final String TEST_INPUT = "32T3K 765\n" +
+    public static final String TEST_INPUT =
+            "32T3K 765\n" +
             "T55J5 684\n" +
             "KK677 28\n" +
             "KTJJT 220\n" +
@@ -34,12 +35,12 @@ public class Aoc07 {
 
     @Test
     public void solution1() {
-        assertEquals(248179786, calc(true, IO.readFile("src/main/java/yk/aoc2023/aoc7.txt")));
+        assertEquals(248179786, calc(true, readFile("aoc07.txt")));
     }
 
     @Test
     public void solution2() {
-        assertEquals(247885995, calc(false, IO.readFile("src/main/java/yk/aoc2023/aoc7.txt")));
+        assertEquals(247885995, calc(false, readFile("aoc07.txt")));
     }
 
     private int calc(boolean part1, String input) {
@@ -53,7 +54,7 @@ public class Aoc07 {
                         (part1 ? calcType(hand) : calcType2(hand)))),
                     parseInt(l.last())))
                 .sorted((o1, o2) -> o1.a.b == o2.a.b ? o1.a.a.compareTo(o2.a.a) : compare(o1.a.b, o2.a.b))
-                .reduce(0, indexed((i, res, cur) -> res + (i + 1) * cur.b));
+                .reduce(0, indexed2((i, res, cur) -> res + (i + 1) * cur.b));
     }
 
     private int calcType(YList<String> hand) {

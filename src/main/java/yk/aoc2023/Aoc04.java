@@ -1,18 +1,19 @@
 package yk.aoc2023;
 
 import org.junit.Test;
-import yk.jcommon.utils.IO;
-import yk.ycollections.YArrayList;
 import yk.ycollections.YList;
 
 import static java.lang.Integer.parseInt;
 import static org.junit.Assert.assertEquals;
 import static yk.aoc2023.utils.AocUtils.INT_ADD;
+import static yk.aoc2023.utils.AocUtils.readFile;
 import static yk.ycollections.YArrayList.al;
+import static yk.ycollections.YArrayList.allocate;
 
 public class Aoc04 {
 
-    public static final String TEST_DATA = "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53\n" +
+    public static final String TEST_DATA =
+            "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53\n" +
             "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19\n" +
             "Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1\n" +
             "Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83\n" +
@@ -31,13 +32,13 @@ public class Aoc04 {
 
     @Test
     public void solution1() {
-        assertEquals(24160, calc(parseInput(IO.readFile("src/main/java/yk/aoc2023/aoc4.txt"))));
+        assertEquals(24160, calc(parseInput(readFile("aoc04.txt"))));
 
     }
 
     @Test
     public void solution2() {
-        assertEquals(5659035, calc2(parseInput(IO.readFile("src/main/java/yk/aoc2023/aoc4.txt"))));
+        assertEquals(5659035, calc2(parseInput(readFile("aoc04.txt"))));
 
     }
 
@@ -48,7 +49,7 @@ public class Aoc04 {
     }
 
     private static int calc2(YList<YList<YList<Integer>>> input) {
-        YList<Integer> counts = YArrayList.allocate(input.size(), i -> 1);
+        YList<Integer> counts = allocate(input.size(), i -> 1);
         input.forWithIndex((i, card) ->  {
             int win = card.last().map(n -> card.first().contains(n) ? 1 : 0).reduce(INT_ADD);
             for (int j = i + 1; j < i + win + 1 && j < counts.size(); j++) counts.set(j, counts.get(j) + counts.get(i));

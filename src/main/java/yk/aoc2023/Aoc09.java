@@ -1,19 +1,17 @@
 package yk.aoc2023;
 
 import org.junit.Test;
-import yk.jcommon.utils.IO;
 import yk.ycollections.YList;
 
 import static java.lang.Integer.parseInt;
 import static org.junit.Assert.assertEquals;
-import static yk.aoc2023.Aoc08.DIR;
-import static yk.aoc2023.utils.AocUtils.INT_ADD;
-import static yk.aoc2023.utils.AocUtils.generate;
+import static yk.aoc2023.utils.AocUtils.*;
 import static yk.ycollections.YArrayList.al;
 
 public class Aoc09 {
 
-    public static final String TEST_INPUT = "0 3 6 9 12 15\n" +
+    public static final String TEST_INPUT =
+            "0 3 6 9 12 15\n" +
             "1 3 6 10 15 21\n" +
             "10 13 16 21 30 45";
 
@@ -29,12 +27,12 @@ public class Aoc09 {
 
     @Test
     public void solution1() {
-        assertEquals(1921197370, calc(IO.readFile(DIR + "/aoc9.txt")));
+        assertEquals(1921197370, calc(readFile("aoc09.txt")));
     }
 
     @Test
     public void solution2() {
-        assertEquals(1124, calc2(IO.readFile(DIR + "/aoc9.txt")));
+        assertEquals(1124, calc2(readFile("aoc09.txt")));
     }
 
     public int calc(String input) {

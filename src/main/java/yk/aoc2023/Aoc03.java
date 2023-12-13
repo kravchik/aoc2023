@@ -3,7 +3,6 @@ package yk.aoc2023;
 import org.junit.Test;
 import yk.aoc2023.utils.ItRegex;
 import yk.jcommon.fastgeom.Vec2i;
-import yk.jcommon.utils.IO;
 import yk.jcommon.utils.XYit;
 import yk.ycollections.YList;
 import yk.ycollections.YMap;
@@ -13,6 +12,7 @@ import java.util.regex.Matcher;
 import static java.lang.Integer.*;
 import static org.junit.Assert.assertEquals;
 import static yk.aoc2023.utils.AocUtils.INT_ADD;
+import static yk.aoc2023.utils.AocUtils.readFile;
 import static yk.jcommon.fastgeom.Vec2i.v2i;
 import static yk.jcommon.utils.XYit.lbrt;
 import static yk.ycollections.YArrayList.al;
@@ -52,12 +52,12 @@ public class Aoc03 {
 
     @Test
     public void solution1() {
-        assertEquals(539637, calc(al(IO.readFile("src/main/java/yk/aoc2023/aoc3.txt").split("\n"))));
+        assertEquals(539637, calc(al(readFile("aoc03.txt").split("\n"))));
     }
 
     @Test
     public void solution2() {
-        assertEquals(82818007, calc2(al(IO.readFile("src/main/java/yk/aoc2023/aoc3.txt").split("\n"))));
+        assertEquals(82818007, calc2(al(readFile("aoc03.txt").split("\n"))));
     }
 
     public boolean hasSymbol(YList<String> data, int y, int x1, int x2) {
