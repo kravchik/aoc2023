@@ -14,10 +14,26 @@
     </properties>
 
     <dependencies>
+
+        <!--
+                TODO fix all versions
+        -->
+
         <dependency>
             <groupId>yk</groupId>
             <artifactId>yincubator</artifactId>
-            <version>0.05</version>
+            <version>0.06-SNAPSHOT</version>
+            <exclusions>
+            <exclusion>
+                <groupId>yk</groupId>
+                <artifactId>ycollections</artifactId>
+            </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>yk</groupId>
+            <artifactId>ycollections</artifactId>
+            <version>0.2.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

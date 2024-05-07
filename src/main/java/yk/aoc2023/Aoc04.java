@@ -6,7 +6,7 @@ import yk.ycollections.YList;
 import static java.lang.Integer.parseInt;
 import static org.junit.Assert.assertEquals;
 import static yk.aoc2023.utils.AocUtils.INT_ADD;
-import static yk.aoc2023.utils.AocUtils.readFile;
+import static yk.aoc2023.utils.AocUtils.readPuzzle;
 import static yk.ycollections.YArrayList.al;
 import static yk.ycollections.YArrayList.allocate;
 
@@ -32,13 +32,13 @@ public class Aoc04 {
 
     @Test
     public void solution1() {
-        assertEquals(24160, calc(parseInput(readFile("aoc04.txt"))));
+        assertEquals(24160, calc(parseInput(readPuzzle("aoc04.txt"))));
 
     }
 
     @Test
     public void solution2() {
-        assertEquals(5659035, calc2(parseInput(readFile("aoc04.txt"))));
+        assertEquals(5659035, calc2(parseInput(readPuzzle("aoc04.txt"))));
 
     }
 

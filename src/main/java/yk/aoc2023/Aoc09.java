@@ -27,12 +27,12 @@ public class Aoc09 {
 
     @Test
     public void solution1() {
-        assertEquals(1921197370, calc(readFile("aoc09.txt")));
+        assertEquals(1921197370, calc(readPuzzle("aoc09.txt")));
     }
 
     @Test
     public void solution2() {
-        assertEquals(1124, calc2(readFile("aoc09.txt")));
+        assertEquals(1124, calc2(readPuzzle("aoc09.txt")));
     }
 
     public int calc(String input) {
@@ -50,7 +50,7 @@ public class Aoc09 {
                 .map(line -> generate(line, l11 -> l11.size() < 2 ? null
                                 : l11.zipWith(l11.cdr(), (l1, l2) -> l2 - l1))
                         .map(l -> l.first())
-                        .reverse().reduce((i, j) -> j - i))
+                        .reversed().reduce((i, j) -> j - i))
                 .reduce(INT_ADD);
     }
 }

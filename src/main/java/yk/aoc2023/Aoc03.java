@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import static java.lang.Integer.*;
 import static org.junit.Assert.assertEquals;
 import static yk.aoc2023.utils.AocUtils.INT_ADD;
-import static yk.aoc2023.utils.AocUtils.readFile;
+import static yk.aoc2023.utils.AocUtils.readPuzzle;
 import static yk.jcommon.fastgeom.Vec2i.v2i;
 import static yk.jcommon.utils.XYit.lbrt;
 import static yk.ycollections.YArrayList.al;
@@ -52,12 +52,12 @@ public class Aoc03 {
 
     @Test
     public void solution1() {
-        assertEquals(539637, calc(al(readFile("aoc03.txt").split("\n"))));
+        assertEquals(539637, calc(al(readPuzzle("aoc03.txt").split("\n"))));
     }
 
     @Test
     public void solution2() {
-        assertEquals(82818007, calc2(al(readFile("aoc03.txt").split("\n"))));
+        assertEquals(82818007, calc2(al(readPuzzle("aoc03.txt").split("\n"))));
     }
 
     public boolean hasSymbol(YList<String> data, int y, int x1, int x2) {
@@ -75,7 +75,7 @@ public class Aoc03 {
     public int calc(YList<String> input) {
         int sum = 0;
         for (int y = 0; y < input.size(); y++) {
-            for (Matcher matcher : new ItRegex("[0-9]+", input.get(y))) {
+            for (Matcher matcher : ItRegex.regexIterable("[0-9]+", input.get(y))) {
                 if (hasSymbol(input, y, matcher.start(), matcher.end())) sum += parseInt(matcher.group());
             }
         }
@@ -103,7 +103,7 @@ public class Aoc03 {
     private static YMap<Vec2i, String> parse(YList<String> input, String regex) {
         YMap<Vec2i, String> numbers = hm();
         for (int i = 0; i < input.size(); i++) {
-            for (Matcher matcher : new ItRegex(regex, input.get(i))) {
+            for (Matcher matcher : ItRegex.regexIterable(regex, input.get(i))) {
                 numbers.put(v2i(matcher.start(), i), matcher.group());
             }
         }

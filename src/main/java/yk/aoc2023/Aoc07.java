@@ -8,9 +8,9 @@ import yk.ycollections.YMap;
 import static java.lang.Integer.compare;
 import static java.lang.Integer.parseInt;
 import static org.junit.Assert.assertEquals;
-import static yk.aoc2023.utils.AocUtils.readFile;
+import static yk.aoc2023.utils.AocUtils.readPuzzle;
 import static yk.aoc2023.utils.AocUtils.stringToStrings;
-import static yk.aoc2023.utils.IndexedBiFunction.indexed2;
+import static yk.aoc2023.utils.Indexers.indexed;
 import static yk.ycollections.YArrayList.al;
 
 public class Aoc07 {
@@ -20,8 +20,8 @@ public class Aoc07 {
             "KK677 28\n" +
             "KTJJT 220\n" +
             "QQQJA 483";
-    public static YList<String> ORDER = al("A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2").reverse();
-    public static YList<String> ORDER_WITH_J = al("A", "K", "Q", "T", "9", "8", "7", "6", "5", "4", "3", "2", "J").reverse();
+    public static YList<String> ORDER = al("A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2").reversed();
+    public static YList<String> ORDER_WITH_J = al("A", "K", "Q", "T", "9", "8", "7", "6", "5", "4", "3", "2", "J").reversed();
 
     @Test
     public void test1() {
@@ -35,12 +35,12 @@ public class Aoc07 {
 
     @Test
     public void solution1() {
-        assertEquals(248179786, calc(true, readFile("aoc07.txt")));
+        assertEquals(248179786, calc(true, readPuzzle("aoc07.txt")));
     }
 
     @Test
     public void solution2() {
-        assertEquals(247885995, calc(false, readFile("aoc07.txt")));
+        assertEquals(247885995, calc(false, readPuzzle("aoc07.txt")));
     }
 
     private int calc(boolean part1, String input) {
@@ -54,7 +54,7 @@ public class Aoc07 {
                         (part1 ? calcType(hand) : calcType2(hand)))),
                     parseInt(l.last())))
                 .sorted((o1, o2) -> o1.a.b == o2.a.b ? o1.a.a.compareTo(o2.a.a) : compare(o1.a.b, o2.a.b))
-                .reduce(0, indexed2((i, res, cur) -> res + (i + 1) * cur.b));
+                .reduce(0, indexed((i, res1, cur) -> res1 + (i + 1) * cur.b));
     }
 
     private int calcType(YList<String> hand) {

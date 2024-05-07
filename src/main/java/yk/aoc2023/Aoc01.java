@@ -48,12 +48,12 @@ public class Aoc01 {
 
     @Test
     public void solution1() {
-        assertEquals(56465, solve(readFile("aoc01.txt")));
+        assertEquals(56465, solve(readPuzzle("aoc01.txt")));
     }
 
     @Test
     public void solution2() {
-        assertEquals(55902, solve2(readFile("aoc01.txt")));
+        assertEquals(55902, solve2(readPuzzle("aoc01.txt")));
     }
 
     public int solve(String input) {

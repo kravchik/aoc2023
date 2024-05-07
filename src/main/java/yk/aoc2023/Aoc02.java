@@ -8,7 +8,7 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Math.max;
 import static org.junit.Assert.assertEquals;
 import static yk.aoc2023.utils.AocUtils.*;
-import static yk.aoc2023.utils.IndexedFunction.indexed;
+import static yk.aoc2023.utils.Indexers.indexed;
 import static yk.ycollections.YArrayList.al;
 import static yk.ycollections.YHashMap.hm;
 
@@ -32,7 +32,7 @@ public class Aoc02 {
 
     @Test
     public void solution1() {
-        assertEquals(2237, solve(hm("red", 12, "green", 13, "blue", 14), parseInput(readFile("aoc02.txt"))));
+        assertEquals(2237, solve(hm("red", 12, "green", 13, "blue", 14), parseInput(readPuzzle("aoc02.txt"))));
     }
 
     public static int solve(YMap<String, Integer> max, YList<YList<YMap<String, Integer>>> input) {
@@ -42,7 +42,7 @@ public class Aoc02 {
 
     @Test
     public void solution2() {
-        assertEquals(66681, solve2(parseInput(readFile("aoc02.txt"))));
+        assertEquals(66681, solve2(parseInput(readPuzzle("aoc02.txt"))));
     }
 
     public static int solve2(YList<YList<YMap<String, Integer>>> input) {

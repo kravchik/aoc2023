@@ -1,12 +1,13 @@
 package yk.aoc2023;
 
 import org.junit.Test;
+import yk.ycollections.YArrayList;
 import yk.ycollections.YList;
 
 import static java.lang.Long.max;
 import static java.lang.Long.min;
 import static org.junit.Assert.assertEquals;
-import static yk.aoc2023.utils.AocUtils.readFile;
+import static yk.aoc2023.utils.AocUtils.readPuzzle;
 import static yk.ycollections.YArrayList.al;
 
 public class Aoc05 {
@@ -58,12 +59,12 @@ public class Aoc05 {
 
     @Test
     public void solution1() {
-        assertEquals(662197086, solution1(readFile("aoc05.txt")));
+        assertEquals(662197086, solution1(readPuzzle("aoc05.txt")));
     }
 
     @Test
     public void solution2() {
-        assertEquals(52510809, solution2(readFile("aoc05.txt")));
+        assertEquals(52510809, solution2(readPuzzle("aoc05.txt")));
     }
 
     public long solution1(String input) {
@@ -79,12 +80,12 @@ public class Aoc05 {
 
     public long solution2(String input) {
         YList<YList<YList<Long>>> maps = parseMaps(input);
-        return parseSeeds2(input)
-                .flatMap(seed -> maps
-                    .reduce(al(seed), (res, map) -> res
-                        .flatMap(r -> map.map(m -> intersection(r, m)))
-                        .filter(r -> r.get(1) >= r.get(0))))
-                .flatMap(c -> c).min();
+        return (Long)parseSeeds2(input)
+            .flatMap(seed -> maps
+                .reduce(al(seed), (res, map) -> (YArrayList) res
+                    .flatMap(r -> map.map(m -> intersection(r, m)))
+                    .filter(r -> r.get(1) >= r.get(0))))
+            .flatMap(c -> c).min();
     }
 
     private static YList<Long> parseSeeds(String input) {

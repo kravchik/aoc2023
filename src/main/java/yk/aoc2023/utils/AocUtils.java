@@ -1,18 +1,19 @@
 package yk.aoc2023.utils;
 
+import org.junit.Test;
 import yk.aoc2023.Aoc08;
 import yk.jcommon.fastgeom.Vec2i;
 import yk.jcommon.utils.IO;
-import yk.ycollections.YArrayList;
 import yk.ycollections.YList;
 import yk.ycollections.YSet;
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
 import static yk.jcommon.fastgeom.Vec2i.v2i;
 import static yk.ycollections.YArrayList.al;
 import static yk.ycollections.YArrayList.toYList;
@@ -29,128 +30,30 @@ public class AocUtils {
         for (int i = '0'; i <= '9'; i++) DIGITS.add((char)i);
     }
 
-    public static final BiFunction<Integer, Integer, Integer> INT_ADD = (i, j) -> i + j;
+    public static final BiFunction<Integer, Integer, Integer> INT_ADD = (i1, j1) -> i1 + j1;
+    public static final BiFunction<Long, Long, Long> LONG_ADD = (i, j) -> i + j;
+    public static final BiFunction<Long, Long, Long> LONG_MUL = (i, j) -> i * j;
     public static final BiFunction<Integer, Integer, Integer> INT_SUB = (i, j) -> i - j;
     public static final BiFunction<Integer, Integer, Integer> INT_MUL = (i, j) -> i * j;
     public static final BiFunction<Float, Float, Float> FLOAT_SUM = (i, j) -> i + j;
+    public static final BiFunction<Double, Double, Double> DOUBLE_ADD = (i, j) -> i + j;
+    public static final BiFunction<Double, Double, Double> DOUBLE_MUL = (i, j) -> i * j;
 
-    public static final YList<Vec2i> DIRS = al(v2i(1, 0), v2i(0, 1), v2i(-1, 0), v2i(0, -1));
-    public static final YList<Character> DIR_SYMBOLS = al('>', 'v', '<', '^');
-
-
-    public static long cycle(long value, long period) {
-        long res = value % period;
-        return res < 0 ? res + period : res;
-    }
-
-    public static YList<String> findAll(String s, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(s);
-        YList result = al();
-        while (matcher.find()) result.add(matcher.group(1));
-        return result;
-    }
+    //TODO MyMath
+    public static int cycleBase(int a, int cycle) {return Math.floorDiv(a, cycle);}
+    public static long cycleBase(long a, long cycle) {return Math.floorDiv(a, cycle);}
+    public static Vec2i cycleBase(Vec2i a, Vec2i cycle) {return v2i(Math.floorDiv(a.x, cycle.x), Math.floorDiv(a.y, cycle.y));}
 
     public static YList<Character> stringToCharacters(String input) {
         return toYList(input.chars().boxed().map(i -> (char) (int) i).collect(Collectors.toList()));
     }
 
     public static YList<String> stringToStrings(String input) {
-        return toYList(input.chars().boxed().map(i -> "" + (char) (int) i).collect(Collectors.toList()));
+        return al(input.split("")).map(s -> s.intern());
     }
 
     public static YList<Integer> stringToInts(String input) {
         return toYList(input.chars().boxed().collect(Collectors.toList()));
-    }
-
-    public static <T> T pop(YList<T> input) {
-        if (input.isEmpty()) throw new RuntimeException("Should not be empty");
-        T result = input.last();
-        input.remove(input.size() - 1);
-        return result;
-    }
-
-    public static <T> YList<T> popSome(YList<T> input, int count) {
-        if (input.isEmpty()) throw new RuntimeException("Should not be empty");
-        YList<T> result = YArrayList.allocate(count);
-        for (int i = 0; i < count; i++) {
-            result.set(count - i - 1, pop(input));
-        }
-        return result;
-    }
-
-    public static <T> YList<YList<T>> transpose(YList<? extends YList<T>> input) {
-        if (input.isEmpty()) throw new RuntimeException("Expecting not empty array");
-        if (input.first().isEmpty()) throw new RuntimeException("Expecting not empty sub-array");
-        int w = input.first().size();
-        int h = input.size();
-        YList<YList<T>> result = YArrayList.allocate(w, i -> YArrayList.allocate(h));
-        for (int i = 0; i < h; i++) {
-            input.get(i).assertSize(w);
-            for (int j = 0; j < w; j++) result.get(j).set(i, input.get(i).get(j));
-        }
-        return result;
-    }
-
-    public static <T> YList<YList<T>> split(YList<T> input, int groupSize) {
-        YList<YList<T>> result = al();
-        YList<T> cur = al();
-        for (T t : input) {
-            cur.add(t);
-            if (cur.size() == groupSize) {
-                result.add(cur);
-                cur = al();
-            }
-        }
-        if (cur.notEmpty()) result.add(cur);
-        return result;
-    }
-
-    public static <T> YList<YList<T>> split(YList<T> input, BiFunction<YList<T>, T, Integer> callback) {
-        YList<YList<T>> result = al();
-        YList<T> cur = al();
-        for (T l : input) {
-            Integer res = callback.apply(cur, l);
-            if (res == 1) {
-                cur.add(l);
-                result.add(cur);
-                cur = al();
-            } else if (res == 2) {
-                result.add(cur);
-                cur = al();
-                cur.add(l);
-            } else if (res == 3) {
-                result.add(cur);
-                cur = al();
-            } else {
-                cur.add(l);
-            }
-        }
-        if (cur.notEmpty()) result.add(cur);
-        return result;
-    }
-
-    public static <T> YList<YList<T>> split(YList<T> input, Function<Accumulator, Accumulator> consumer) {
-        YList<T> cur = al();
-        Accumulator acc = new Accumulator();
-        for (T l : input) {
-            acc.element = l;
-            consumer.apply(acc);
-        }
-        if (acc.cur.notEmpty()) acc.result.add(cur);
-        return acc.result;
-    }
-
-    public static Vec2i abs(Vec2i v) {
-        return v2i(Math.abs(v.x), Math.abs(v.y));
-    }
-
-    public static int sum(Vec2i v) {
-        return v.x + v.y;
-    }
-
-    public static int max(Vec2i v) {
-        return Math.max(v.x, v.y);
     }
 
     public static <T> YList<T> generate(T initial, Function<T, T> gen) {
@@ -171,28 +74,92 @@ public class AocUtils {
         return result;
     }
 
-    public static YList<YList<String>> parse2d(String input) {
-        return al(input.split("\n")).map(s -> AocUtils.stringToStrings(s));
-    }
-
-    public static class Accumulator<T> {
-        public YList<YList<T>> result = al();
-        public YList<T> cur = al();
-        public T element;
-
-        public Accumulator finishGroup() {
-            result.add(cur);
-            cur = al();
-            return this;
-        }
-
-        public Accumulator add() {
-            cur.add(element);
-            return this;
-        }
-    }
-
-    public static String readFile(String name) {
+    public static String readPuzzle(String name) {
         return IO.readFile(Aoc08.DIR + "/" + name);
     }
+
+    public static class CachedHashed<T> {
+        public T value;
+        public int hash;
+
+        public CachedHashed(T value) {
+            this.value = value;
+            hash = value.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CachedHashed<?> that = (CachedHashed<?>) o;
+            return hash == that.hash && Objects.equals(value, that.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return hash;
+        }
+    }
+
+    public static class CycleState<T> {
+        public YList<CachedHashed<T>> seen = al();
+        public int disp;
+        public int cycle;
+
+        public int findPosAt(long at) {
+            return (int) ((at - disp) % cycle + disp);
+        }
+
+        public T findStateAt(long at) {
+            return seen.get(findPosAt(at)).value;
+        }
+
+        @Override
+        public String toString() {
+            return "CycleState{" +
+                    "disp=" + disp +
+                    ", cycle=" + cycle +
+                    '}';
+        }
+    }
+
+    public static <T> CycleState<T> findCycleOnUniqueState(Supplier<T> supplier) {
+        CycleState<T> result = new CycleState<>();
+        while(true) {
+            T t = supplier.get();
+            CachedHashed<T> cached = new CachedHashed<>(t);
+            if (result.seen.contains(cached)) {
+                int i = result.seen.indexOf(cached);
+                result.disp = i;
+                result.cycle = result.seen.size() - i;
+                return result;
+            }
+            result.seen.add(cached);
+        }
+    }
+
+    @Test
+    public void testCycles() {
+        final int[] i = {0};
+        int[] ii = new int[]{1, 2, 3, 4, 5, 6, 7, 3, 4, 5, 6, 7};
+        CycleState<Integer> cycle = findCycleOnUniqueState(() -> ii[i[0]++]);
+        assertEquals(5, cycle.cycle);
+        assertEquals(2, cycle.disp);
+        assertEquals(al(new CachedHashed<>(1), new CachedHashed<>(2), new CachedHashed<>(3), new CachedHashed<>(4), new CachedHashed<>(5), new CachedHashed<>(6), new CachedHashed<>(7)), cycle.seen);
+
+        assertEquals(2, cycle.findPosAt(7));
+        assertEquals(3, cycle.findPosAt(8));
+        assertEquals(4, cycle.findPosAt(9));
+        assertEquals(5, cycle.findPosAt(10));
+        assertEquals(6, cycle.findPosAt(11));
+        assertEquals(2, cycle.findPosAt(12));
+        assertEquals(3, cycle.findPosAt(13));
+        assertEquals(4, cycle.findPosAt(14));
+        assertEquals(5, cycle.findPosAt(15));
+        assertEquals(6, cycle.findPosAt(16));
+        assertEquals(2, cycle.findPosAt(17));
+        assertEquals(3, cycle.findPosAt(18));
+        assertEquals(5, cycle.findPosAt(1000_000_000));
+    }
+
 }
