@@ -93,9 +93,8 @@ public class Aoc19 {
 
     }
 
-    private static YList<YMap<String, Vec2i>> step(String commandName,
-                                                                     YMap<String, YList<Command>> workflows,
-                                                                     YMap<String, Vec2i> gear) {
+    private static YList<YMap<String, Vec2i>> step(String commandName, YMap<String, YList<Command>> workflows,
+                                                                       YMap<String, Vec2i> gear) {
         if (gear.values().isAny(t -> t.x > t.y)) return al();
         if (commandName.equals("A")) return al(gear);
         if (commandName.equals("R")) return al();
