@@ -12,8 +12,8 @@ import static yk.ycollections.YArrayList.al;
 
 public class ItRegex {
 
-    public static Iterable<Matcher> regexIterable(String p, String s) {
-        final Matcher m = Pattern.compile(p).matcher(s);
+    public static Iterable<Matcher> regexIterable(String pattern, String text) {
+        final Matcher m = Pattern.compile(pattern).matcher(text);
         return () -> new Iterator() {
             @Override
             public boolean hasNext() {
@@ -27,17 +27,25 @@ public class ItRegex {
         };
     }
 
-    public static YList<String> regexGroups(String p, String s) {
-        YList<String> result = al();
-        for (Matcher group : regexIterable(p, s)) {
-            for (int i = 1; i < group.groupCount() + 1; i++) result.add(group.group(i));
-        }
+    public static YList<YList<String>> regexGroups(String pattern, String text) {
+        YList<YList<String>> result = al();
+        for (Matcher group : regexIterable(pattern, text)) result.add(groupsToList(group));
         return result;
+    }
+
+    public static YList<String> groupsToList(Matcher group) {
+        YList<String> r = al();
+        for (int i = 1; i < group.groupCount() + 1; i++) {
+            r.add(group.group(i));
+        }
+        return r;
     }
 
     @Test
     public void testRegexGroups() {
-        assertEquals(al("a", "<", "2006", "qkq"), regexGroups("([a-z]+)([<>])([0-9]+):([a-z]+)", "a<2006:qkq"));
+        assertEquals(al(al("a", "<", "2006", "qkq")), regexGroups("([a-z]+)([<>])([0-9]+):([a-z]+)", "a<2006:qkq"));
+        assertEquals(al(al("a", "<", "2006", "qkq"), al("b", ">", "2007", "kqk")),
+            regexGroups("([a-z]+)([<>])([0-9]+):([a-z]+)", "a<2006:qkq b>2007:kqk"));
     }
 
 }
