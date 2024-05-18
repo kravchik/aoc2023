@@ -1,10 +1,23 @@
 package yk.aoc2023.utils;
 
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
 //TODO ycollections
 public class Indexers {
+
+    public static <I, R> Consumer<I> indexed(IndexedConsumerCallback<I, R> f) {
+        return new Consumer<I>() {
+            private int currentIndex;
+            @Override public void accept(I i) {f.consume(currentIndex++, i);}
+        };
+    }
+
+    public interface IndexedConsumerCallback<I, R> {
+        void consume(int index, I input);
+    }
 
     public static <I, R> Function<I, R> indexed(IndexedFunctionCallback<I, R> f) {
         return new Function<I, R>() {
