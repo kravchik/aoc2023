@@ -50,19 +50,20 @@ public class Aoc21 {
 
     @Test
     public void solution2() {
-        String mappp = readPuzzle("aoc21.txt");
         //how many garden plots could the Elf reach in exactly steps steps?
         long steps = 26501365L;
-        YList<Long> numbers = calc2b(500, mappp, true);
+        YList<YList<String>> map = parse2d(readPuzzle("aoc21.txt"));
+        YList<Long> numbers = calc2b(500, true, map);
         Progression.Result progression = Progression.results(numbers)
             .filter(r -> (steps - r.offset) % r.period == 0)
             .first();
-        assertEquals(new Progression.Result(65, 131, al(3848L, 30462L, 30372L)), progression);
+        assertEquals(new Progression.Result(map.first().size() / 2, map.first().size(), al(3848L, 30462L, 30372L)),
+                     progression);
         assertEquals(621494544278648L, Progression.doubleProgression(
-            (steps - progression.offset) / progression.period,
-            progression.difs.get(0),
-            progression.difs.get(1),
-            progression.difs.get(2)));
+                (steps - progression.offset) / progression.period,
+                progression.difs.get(0),
+                progression.difs.get(1),
+                progression.difs.get(2)));
     }
 
     /**
@@ -82,7 +83,7 @@ public class Aoc21 {
     }
 
     private static long calc2(int steps, String input, boolean mirrorEdge) {
-        return calc2b(steps, input, mirrorEdge).last();
+        return calc2b(steps, mirrorEdge, AocUtils2D.parse2d(input)).last();
     }
 
     /**
@@ -98,10 +99,9 @@ public class Aoc21 {
      *
      * Both those properties are used to calculate total reachable points by defined step. There are two separate counters - one for even steps, and one for odd.
      */
-    private static YList<Long> calc2b(int steps, String input, boolean mirrorEdge) {
+    private static YList<Long> calc2b(int steps, boolean mirrorEdge, YList<YList<String>> map) {
         YList<Long> result = al(1L);
 
-        YList<YList<String>> map = AocUtils2D.parse2d(input);
         Vec2i wh = v2i(map.first().size(), map.size());
         YSet<Vec2i> edge = hs(AocUtils2D.find(map, "S"));
 
