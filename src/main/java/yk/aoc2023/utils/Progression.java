@@ -14,7 +14,7 @@ import static yk.ycollections.YArrayList.al;
 public class Progression {
 
     /**
-     * Kind of "double arithmetic progression"
+     * Double arithmetic progression
      *
      * Algorithmic sense:
      *     inc = inc0
@@ -24,7 +24,9 @@ public class Progression {
      *
      */
     public static long doubleProgression(long steps, long r0, long inc0, long incInc) {
-        return (((steps - 1) * steps) / 2) * incInc + inc0 * steps + r0;
+        return r0 //base
+            + inc0 * steps //arithmetic progression
+            + incInc * (((steps - 1) * steps) / 2); //double arithmetic progression
     }
 
     @Test
