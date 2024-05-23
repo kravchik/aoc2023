@@ -57,7 +57,7 @@ public class Aoc21 {
         Progression.Result progression = Progression.results(numbers)
             .filter(r -> (steps - r.offset) % r.period == 0)
             .first();
-        assertEquals(al(3848L, 30462L, 30372L), progression.difs);
+        assertEquals(new Progression.Result(65, 131, al(3848L, 30462L, 30372L)), progression);
         assertEquals(621494544278648L, Progression.doubleProgression(
             (steps - progression.offset) / progression.period,
             progression.difs.get(0),
