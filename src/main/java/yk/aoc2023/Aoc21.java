@@ -57,11 +57,12 @@ public class Aoc21 {
         Progression.Result progression = Progression.results(numbers)
             .filter(r -> (steps - r.offset) % r.period == 0)
             .first();
-        assertEquals(2, progression.order);
-        long periods = (steps - progression.offset) / progression.period;
-        long numAtOffset = numbers.get(progression.offset);
-        long firstDelta = numbers.get(progression.offset + progression.period) - numAtOffset;
-        assertEquals(621494544278648L, Progression.doubleProgression(periods, numAtOffset, firstDelta, progression.dif));
+        assertEquals(al(3848L, 30462L, 30372L), progression.difs);
+        assertEquals(621494544278648L, Progression.doubleProgression(
+            (steps - progression.offset) / progression.period,
+            progression.difs.get(0),
+            progression.difs.get(1),
+            progression.difs.get(2)));
     }
 
     /**

@@ -3,6 +3,8 @@ package yk.aoc2023.utils;
 import org.junit.Test;
 import yk.ycollections.YList;
 
+import java.util.Objects;
+
 import static org.junit.Assert.assertEquals;
 import static yk.ycollections.YArrayList.al;
 
@@ -35,19 +37,17 @@ public class Progression {
     public static class Result {
         public int offset;
         public int period;
-        public int order;
-        public long dif;
+        public YList<Long> difs;
 
-        public Result(int offset, int period, int order, long dif) {
+        public Result(int offset, int period, YList<Long> difs) {
             this.offset = offset;
             this.period = period;
-            this.order = order;
-            this.dif = dif;
+            this.difs = difs;
         }
 
         @Override
         public String toString() {
-            return "progression(" + offset + " " + period + " " + order + " " + dif + ')';
+            return "progression(" + offset + " " + period + " (" + difs.toString(" ") + "))";
         }
 
         @Override
@@ -55,7 +55,7 @@ public class Progression {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Result result = (Result) o;
-            return offset == result.offset && period == result.period && order == result.order && dif == result.dif;
+            return offset == result.offset && period == result.period && Objects.equals(difs, result.difs);
         }
     }
 
@@ -75,12 +75,12 @@ public class Progression {
         for (int i = 0; i < numbers.size() - offset; i += period) {
             candidates.add(numbers.get(offset + i));
         }
-        int level = 0;
+        YList<Long> difs = al();
         while(candidates.size() > 1) {
             Long dif = candidates.first();
-            if (candidates.isAll(c -> c.equals(dif))) return new Result(offset, period, level, dif);
+            difs.add(dif);
+            if (candidates.isAll(c -> c.equals(dif))) return new Result(offset, period, difs);
             candidates = difLine(candidates);
-            level++;
         }
         return null;
     }
@@ -93,12 +93,12 @@ public class Progression {
 
     @Test
     public void test1() {
-        assertEquals(new Result(0, 1, 0, 0), results(al(0L, 0L, 0L, 0L, 0L, 0L)).get(0));
-        assertEquals(new Result(1, 1, 0, 2), results(al(0L, 2L, 2L, 2L, 2L, 2L)).get(0));
-        assertEquals(new Result(0, 1, 1, 1), results(al(0L, 1L, 2L, 3L, 4L, 5L)).get(0));
-        assertEquals(new Result(2, 1, 1, 1), results(al(0L, 0L, 0L, 1L, 2L, 3L)).get(0));
+        assertEquals(new Result(0, 1, al(0L)), results(al(0L, 0L, 0L, 0L, 0L, 0L)).get(0));
+        assertEquals(new Result(1, 1, al(2L)), results(al(0L, 2L, 2L, 2L, 2L, 2L)).get(0));
+        assertEquals(new Result(0, 1, al(0L, 1L)), results(al(0L, 1L, 2L, 3L, 4L, 5L)).get(0));
+        assertEquals(new Result(2, 1, al(0L, 1L)), results(al(0L, 0L, 0L, 1L, 2L, 3L)).get(0));
 
-        assertEquals(al(new Result(3, 2, 1, 2)), results(al(0L, 0L, 0L, 1L, 10L, 3L, 15L, 5L)));
-        assertEquals(al(new Result(1, 2, 2, 1)), results(al(0L, 0L, 0L, 3L, 10L, 7L, 15L, 12L)));
+        assertEquals(al(new Result(3, 2, al(1L, 2L))), results(al(0L, 0L, 0L, 1L, 10L, 3L, 15L, 5L)));
+        assertEquals(al(new Result(1, 2, al(0L, 3L, 1L))), results(al(0L, 0L, 0L, 3L, 10L, 7L, 15L, 12L)));
     }
 }
