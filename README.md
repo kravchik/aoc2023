@@ -26,3 +26,8 @@ Discovered interesting basic properties for this world, where you can only walk 
 
 1. If you paint the surface in a chess-board pattern, you will always end up on the same color on even/odd steps.
 2. When waterspilling, you don't have to keep all seen places to avoid repeating. It is enough to keep only the previous step as 'seen'. It suffice to block you from going back.
+
+### Day 23
+
+When you implement pruning - you find the solution in an hour instead of years. When you prune really carefully, you solve the search in a minute, instead of an hour.
+
