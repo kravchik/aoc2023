@@ -29,5 +29,5 @@ Discovered interesting basic properties for this world, where you can only walk 
 
 ### Day 23
 
-When you implement pruning - you find the solution in an hour instead of years. When you prune really carefully, you solve the search in a minute, instead of an hour.
+When you implement pruning - you find the solution in an hour instead of years. When you prune really carefully, you solve the search in a second, instead of an hour.
 

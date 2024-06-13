@@ -11,7 +11,7 @@ import static yk.ycollections.YArrayList.allocate;
 public class Search {
     public interface Function_L_D { double apply(long i);}
 
-    public static long binarySearch(long from, long to, Function_L_D calc) {
+    public static long minimizeBinary(long from, long to, Function_L_D calc) {
         while(true) {
             long mid = (from + to) / 2;
             if (mid == from || mid == to) return calc.apply(from) < calc.apply(to) ? from : to;
@@ -34,7 +34,7 @@ public class Search {
         }
     }
 
-    public static YList<Long> minimize(YList<Long> input, Function<YList<Long>, Double> calc) {
+    public static YList<Long> minimizeNet(YList<Long> input, Function<YList<Long>, Double> calc) {
         YList<Long> finalInput = input;
         YList<YList<Long>> mm = input.mapWithIndex(
             (i, c) -> allocate(finalInput.size(), ii -> (long) (ii == i ? 1 : 0)));

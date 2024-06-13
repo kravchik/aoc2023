@@ -59,8 +59,8 @@ public class Aoc24 {
         YList<Vec3d> rawRay = al(null, null);
 
         Ptr<Double> res2 = new Ptr<>(0D);
-        Search.binarySearch(0, 1_000_000_000_000L, t1 -> {
-            Search.binarySearch(0, 1_000_000_000_000L, t2 -> {
+        Search.minimizeBinary(0, 1_000_000_000_000L, t1 -> {
+            Search.minimizeBinary(0, 1_000_000_000_000L, t2 -> {
                 Vec3d pos1 = stonesD.get(0).first().add(stonesD.get(0).last().mul(t1));
                 Vec3d pos2 = stonesD.get(30).first().add(stonesD.get(30).last().mul(t2));
 
@@ -89,7 +89,7 @@ public class Aoc24 {
         System.out.println();
 
         //optimize Dir
-        YList<Long> optimizedDir = Search.minimize(
+        YList<Long> optimizedDir = Search.minimizeNet(
                 al((long)rawDir.x, (long)rawDir.y, (long)rawDir.z),
                 cur -> timeDif(stonesD, rawPos, v3d(cur.get(0), cur.get(1), cur.get(2))).reduce(DOUBLE_ADD)
         );
@@ -102,7 +102,7 @@ public class Aoc24 {
         System.out.println();
 
         //optimize Pos
-        YList<Long> optimizedPos = Search.minimize(
+        YList<Long> optimizedPos = Search.minimizeNet(
                 al((long)rawPos.x, (long)rawPos.y, (long)rawPos.z),
                 cur -> timeDif(stonesD, v3d(cur.get(0), cur.get(1), cur.get(2)), oDir).reduce(DOUBLE_ADD)
         );
